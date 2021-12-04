@@ -1,0 +1,50 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "es6":true
+    },
+    "extends": [
+        "airbnb"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 13,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react","prettier"
+    ],
+    "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "no-console": "off",
+        "no-underscore-dangle": "off",
+        "react/forbid-prop-types": "off",
+        "react/jsx-filename-extension": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "object-curly-newline": "off",
+        "linebreak-style": "off",
+        "no-param-reassign": "off",
+        "react/function-component-definition":"off",
+        "react/jsx-wrap-multilines":"off",
+        "react/prop-types":"off",
+        "prettier/prettier": "error",
+        "no-unused-vars":"off",
+        "react/jsx-no-duplicate-props":"off",
+        "no-case-declarations":"off",
+        "default-param-last":"off",
+        "comma-dangle":"off",
+        "jsx-a11y/click-events-have-key-events":"off",
+        "jsx-a11y/no-static-element-interactions":"off",
+        "react/no-array-index-key":"off",
+        "import/no-extraneous-dependencies":"off",
+        "operator-linebreak":"off",
+        "no-sequences":"off",
+        "consistent-return":"off",
+        "implicit-arrow-linebreak":"off",
+        "import/no-named-as-default":"off"
+    }
+}
