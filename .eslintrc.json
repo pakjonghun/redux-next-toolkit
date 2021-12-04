@@ -45,6 +45,8 @@
         "no-sequences":"off",
         "consistent-return":"off",
         "implicit-arrow-linebreak":"off",
-        "import/no-named-as-default":"off"
+        "import/no-named-as-default":"off",
+        "react/jsx-props-no-spreading":"off",
+        "function-paren-newline":"off"
     }
 }

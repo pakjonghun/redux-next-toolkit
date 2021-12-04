@@ -2,14 +2,16 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row, Menu, Input } from 'antd';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import userReducer from '../reducers/user';
+import Login from './Login';
 
 const { Search } = Input;
 
 const AppLayout = ({ children }) => {
   const { value, onChange } = useInput('');
+  const { isLoginDone } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const onClick = useCallback(() => {
     dispatch(userReducer.actions.loginRequest({ id: 1, pw: 1 }));
@@ -45,7 +47,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          1번행
+          {isLoginDone ? '로그인되있음' : <Login />}
         </Col>
         <Col xs={24} md={12}>
           {children}
