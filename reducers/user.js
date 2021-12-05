@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  me: {},
   isLoginLoading: false,
   isLoginDone: false,
   isLoginError: null,
+  isLogoutLoading: false,
+  isLogoutError: null,
 };
 
 const userReducer = createSlice({
@@ -13,15 +16,26 @@ const userReducer = createSlice({
     loginRequest: (state) => {
       state.isLoginLoading = true;
     },
-    loginSuccess: (state, action) => {
-      console.log(action);
+    loginSuccess: (state, { payload }) => {
+      state.me = { ...payload };
       state.isLoginLoading = false;
       state.isLoginDone = true;
     },
-    loginFail: (state, action) => {
-      console.log(action);
+    loginFail: (state, { payload }) => {
       state.isLoginLoading = false;
-      //   state.isLoginError = action.error;
+      state.isLoginError = payload.error;
+    },
+    logoutRequest: (state) => {
+      state.isLogoutLoading = true;
+    },
+    logoutSuccess: (state) => {
+      state.me = {};
+      state.isLoginDone = false;
+      state.isLogoutLoading = false;
+    },
+    logoutFail: (state, { payload }) => {
+      state.isLogoutLoading = false;
+      state.isLogoutError = payload.error;
     },
   },
 });

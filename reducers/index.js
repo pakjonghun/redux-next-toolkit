@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import postReducer from './post';
 import userReducer from './user';
 
 const index = createSlice({
@@ -11,6 +12,7 @@ const index = createSlice({
 const rootReducer = combineReducers({
   index: index.reducer,
   userReducer: userReducer.reducer,
+  postReducer: postReducer.reducer,
 });
 
 export default rootReducer;

@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import userReducer from '../reducers/user';
 import Login from './Login';
+import UserForm from './UserForm';
 
 const { Search } = Input;
 
 const AppLayout = ({ children }) => {
   const { value, onChange } = useInput('');
-  const { isLoginDone } = useSelector((state) => state.userReducer);
+  const { me } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const onClick = useCallback(() => {
     dispatch(userReducer.actions.loginRequest({ id: 1, pw: 1 }));
@@ -47,7 +48,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          {isLoginDone ? '로그인되있음' : <Login />}
+          {me && me.email ? <UserForm /> : <Login />}
         </Col>
         <Col xs={24} md={12}>
           {children}
