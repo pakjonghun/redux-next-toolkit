@@ -3,30 +3,36 @@ import shortid from 'shortid';
 import faker from 'faker';
 import postReducer from '../reducers/post';
 
-function getPostRequest(payload) {
-  return {
-    id: shortid.generate(),
-    title: payload.content,
-    images: [
-      { id: shortid.generate(), src: faker.image.image() },
-      { id: shortid.generate(), src: faker.image.image() },
-    ],
-    user: {
-      me: payload.me,
+const dummyPost = {
+  id: shortid.generate(),
+  title: faker.lorem.paragraph,
+  images: [
+    { id: shortid.generate(), src: faker.image.image() },
+    { id: shortid.generate(), src: faker.image.image() },
+    { id: shortid.generate(), src: faker.image.image() },
+  ],
+  user: {
+    me: {
+      id: shortid.generate(),
+      avatar: faker.image.avatar(),
     },
-    comments: [
-      {
-        id: shortid.generate(),
-        content: faker.lorem.sentence(),
-        user: { avatar: faker.image.avatar(), id: shortid.generate() },
-      },
-      {
-        id: shortid.generate(),
-        content: faker.lorem.sentence(),
-        user: { avatar: faker.image.avatar(), id: shortid.generate() },
-      },
-    ],
-  };
+  },
+  comments: [
+    {
+      id: shortid.generate(),
+      content: faker.lorem.sentence(),
+      user: { avatar: faker.image.avatar(), id: shortid.generate() },
+    },
+    {
+      id: shortid.generate(),
+      content: faker.lorem.sentence(),
+      user: { avatar: faker.image.avatar(), id: shortid.generate() },
+    },
+  ],
+};
+
+function getPostRequest() {
+  return [dummyPost, dummyPost];
 }
 
 function* getPost({ payload }) {
@@ -35,12 +41,13 @@ function* getPost({ payload }) {
     yield delay(1000);
     yield put(postReducer.actions.getPostSuccess(result));
   } catch (error) {
+    console.log(error);
     yield put(postReducer.actions.getPostFail({ error }));
   }
 }
 
 function* watchGetPostRequest() {
-  yield takeLatest(postReducer.actions.getPost, getPost);
+  yield takeLatest(postReducer.actions.getPostRequest, getPost);
 }
 
 export default function* post() {

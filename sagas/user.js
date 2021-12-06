@@ -17,6 +17,7 @@ function* login({ payload }) {
     yield delay(1000);
     yield put(userReducer.actions.loginSuccess(payload));
   } catch (error) {
+    console.log(error);
     yield put(userReducer.actions.loginFail({ error }));
   }
 }
@@ -26,6 +27,7 @@ function* logout() {
     yield delay(1000);
     yield put(userReducer.actions.logoutSuccess());
   } catch (error) {
+    console.log(error);
     yield put(userReducer.actions({ error }));
   }
 }
