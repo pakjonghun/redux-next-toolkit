@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
+import shortid from 'shortid';
 import CoverImages from './CoverImages';
 import postReducer from '../reducers/post';
 
@@ -53,11 +54,11 @@ const PostCard = ({ item }) => {
           title={item.user.me.id}
           description={item.title.split(/(#[^#\s]+)/g).map((jtem) =>
             jtem.includes('#') ? (
-              <Link href="#">
+              <Link key={shortid.generate()} href="#">
                 <a>{jtem}</a>
               </Link>
             ) : (
-              <span>{jtem}</span>
+              <span key={shortid.generate()}>{jtem}</span>
             )
           )}
         />

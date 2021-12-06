@@ -48,7 +48,6 @@ function* addPost({ payload }) {
   try {
     const newPost = yield call(addPosstRequest, payload.content);
     yield delay(1000);
-    console.log(newPost);
     yield put(postReducer.actions.addPostSuccess({ newPost }));
     yield put(userReducer.actions.addPostToMe({ newPost }));
   } catch (error) {
