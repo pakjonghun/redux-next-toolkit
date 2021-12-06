@@ -6,15 +6,21 @@ import {
   EllipsisOutlined,
   CommentOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CoverImages from './CoverImages';
+import postReducer from '../reducers/post';
 
 const PostCard = ({ item }) => {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.userReducer);
   const [isCommentOpened, setCommentOpened] = useState(false);
   const onCommentClick = useCallback(() => {
     setCommentOpened(!isCommentOpened);
   }, [isCommentOpened]);
-  const { me } = useSelector((state) => state.userReducer);
+
+  const onPostDelete = useCallback(() => {
+    dispatch(postReducer.actions.deletePostRequest({ id: item.id }));
+  }, []);
   return (
     <>
       <Card
@@ -26,7 +32,9 @@ const PostCard = ({ item }) => {
             content={
               me && me.id ? (
                 <>
-                  <Button type="danger">삭제</Button>
+                  <Button onClick={onPostDelete} type="danger">
+                    삭제
+                  </Button>
                   <Button>편집</Button>
                 </>
               ) : (

@@ -2,13 +2,16 @@ import shortid from 'shortid';
 import faker from 'faker';
 import { put, fork, takeLatest, all, delay, call } from 'redux-saga/effects';
 import userReducer from '../reducers/user';
+import { dummyPost } from './post';
 
 function loginRequest(payload) {
   payload.id = shortid.generate();
   payload.avatar = faker.image.avatar();
   payload.follows = [1, 2];
   payload.followers = [1, 2];
-  payload.posts = [1, 2];
+  const post1 = dummyPost(1);
+  const post2 = dummyPost(2);
+  payload.posts = [post1, post2];
 }
 
 function* login({ payload }) {

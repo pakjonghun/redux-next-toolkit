@@ -17,6 +17,7 @@ const userReducer = createSlice({
       state.isLoginLoading = true;
     },
     loginSuccess: (state, { payload }) => {
+      console.log('login', payload);
       state.me = { ...payload };
       state.isLoginLoading = false;
       state.isLoginDone = true;
@@ -36,6 +37,9 @@ const userReducer = createSlice({
     logoutFail: (state, { payload }) => {
       state.isLogoutLoading = false;
       state.isLogoutError = payload.error;
+    },
+    deletePostToMe: (state, { payload }) => {
+      state.me.posts = state.me.posts.filter((item) => item.id !== payload.id);
     },
   },
 });

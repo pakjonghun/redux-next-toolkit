@@ -2,10 +2,11 @@ import { takeLatest, all, put, fork, delay, call } from 'redux-saga/effects';
 import shortid from 'shortid';
 import faker from 'faker';
 import postReducer from '../reducers/post';
+import userReducer from '../reducers/user';
 
-const dummyPost = {
-  id: shortid.generate(),
-  title: faker.lorem.paragraph,
+export const dummyPost = (id) => ({
+  id,
+  title: faker.lorem.paragraph(),
   images: [
     { id: shortid.generate(), src: faker.image.image() },
     { id: shortid.generate(), src: faker.image.image() },
@@ -29,10 +30,14 @@ const dummyPost = {
       user: { avatar: faker.image.avatar(), id: shortid.generate() },
     },
   ],
-};
+});
 
-function getPostRequest() {
-  return [dummyPost, dummyPost];
+export function getPostRequest() {
+  return [dummyPost(1), dummyPost(2)];
+}
+
+function deletePostRequest(id) {
+  console.log(id);
 }
 
 function* getPost({ payload }) {
@@ -46,10 +51,25 @@ function* getPost({ payload }) {
   }
 }
 
+function* deletePost({ payload }) {
+  try {
+    yield delay(1000);
+
+    yield call(deletePostRequest, payload.id);
+    yield put(postReducer.actions.deletePostSuccess(payload));
+    yield put(userReducer.actions.deletePostToMe({ id: payload.id }));
+  } catch (error) {
+    yield put(postReducer.actions.deletePostFail({ error }));
+  }
+}
 function* watchGetPostRequest() {
   yield takeLatest(postReducer.actions.getPostRequest, getPost);
 }
 
+function* watchDeletePostRequest() {
+  yield takeLatest(postReducer.actions.deletePostRequest, deletePost);
+}
+
 export default function* post() {
-  yield all([fork(watchGetPostRequest)]);
+  yield all([fork(watchGetPostRequest), fork(watchDeletePostRequest)]);
 }

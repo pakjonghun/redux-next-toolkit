@@ -12,7 +12,7 @@ const PostCards = () => {
     dispatch(
       postReducer.actions.getPostRequest({ content: 'abc', me: user.me })
     );
-  }, [user.me]);
+  }, []);
 
   return (
     <div className="site-card-wrapper">

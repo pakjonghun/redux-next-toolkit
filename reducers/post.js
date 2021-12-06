@@ -42,7 +42,20 @@ const postReducer = createSlice({
       state.isPostAddLoading = false;
       state.isPostAddError = payload.error;
     },
-    deletePost: (state, action) => {},
+    deletePostRequest: (state) => {
+      state.isPostDeleteLoading = true;
+    },
+    deletePostSuccess: (state, { payload }) => {
+      state.mainPosts = state.mainPosts.filter(
+        (item) => item.id !== payload.id
+      );
+      state.isPostDeleteLoading = false;
+      state.isPostDeleteDone = true;
+    },
+    deletePostFail: (state, { payload }) => {
+      state.isPostDeleteLoading = false;
+      state.isPostDeleteError = payload.error;
+    },
     getPost: (state, action) => {},
   },
 });
