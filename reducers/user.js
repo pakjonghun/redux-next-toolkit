@@ -17,7 +17,6 @@ const userReducer = createSlice({
       state.isLoginLoading = true;
     },
     loginSuccess: (state, { payload }) => {
-      console.log('login', payload);
       state.me = { ...payload };
       state.isLoginLoading = false;
       state.isLoginDone = true;
@@ -40,6 +39,9 @@ const userReducer = createSlice({
     },
     deletePostToMe: (state, { payload }) => {
       state.me.posts = state.me.posts.filter((item) => item.id !== payload.id);
+    },
+    addPostToMe: (state, { payload }) => {
+      state.me.posts.unshift(payload.newPost);
     },
   },
 });

@@ -7,6 +7,7 @@ import {
   CommentOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import CoverImages from './CoverImages';
 import postReducer from '../reducers/post';
 
@@ -50,7 +51,15 @@ const PostCard = ({ item }) => {
         <Card.Meta
           avatar={<Avatar src={item.user.me.avatar} />}
           title={item.user.me.id}
-          description={item.title}
+          description={item.title.split(/(#[^#\s]+)/g).map((jtem) =>
+            jtem.includes('#') ? (
+              <Link href="#">
+                <a>{jtem}</a>
+              </Link>
+            ) : (
+              <span>{jtem}</span>
+            )
+          )}
         />
       </Card>
       {isCommentOpened && (

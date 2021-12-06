@@ -4,9 +4,9 @@ import faker from 'faker';
 import postReducer from '../reducers/post';
 import userReducer from '../reducers/user';
 
-export const dummyPost = (id) => ({
+export const dummyPost = (id, title = faker.lorem.paragraph()) => ({
   id,
-  title: faker.lorem.paragraph(),
+  title,
   images: [
     { id: shortid.generate(), src: faker.image.image() },
     { id: shortid.generate(), src: faker.image.image() },
@@ -40,9 +40,26 @@ function deletePostRequest(id) {
   console.log(id);
 }
 
+function addPosstRequest(title) {
+  return dummyPost(shortid.generate(), title);
+}
+
+function* addPost({ payload }) {
+  try {
+    const newPost = yield call(addPosstRequest, payload.content);
+    yield delay(1000);
+    console.log(newPost);
+    yield put(postReducer.actions.addPostSuccess({ newPost }));
+    yield put(userReducer.actions.addPostToMe({ newPost }));
+  } catch (error) {
+    yield put(postReducer.actions.addPostFail({ error }));
+  }
+}
+
 function* getPost({ payload }) {
   try {
     const result = yield call(getPostRequest, payload);
+
     yield delay(1000);
     yield put(postReducer.actions.getPostSuccess(result));
   } catch (error) {
@@ -59,9 +76,15 @@ function* deletePost({ payload }) {
     yield put(postReducer.actions.deletePostSuccess(payload));
     yield put(userReducer.actions.deletePostToMe({ id: payload.id }));
   } catch (error) {
+    console.log(error);
     yield put(postReducer.actions.deletePostFail({ error }));
   }
 }
+
+function* watchAddPostRequest() {
+  yield takeLatest(postReducer.actions.addPostRequest, addPost);
+}
+
 function* watchGetPostRequest() {
   yield takeLatest(postReducer.actions.getPostRequest, getPost);
 }
@@ -71,5 +94,9 @@ function* watchDeletePostRequest() {
 }
 
 export default function* post() {
-  yield all([fork(watchGetPostRequest), fork(watchDeletePostRequest)]);
+  yield all([
+    fork(watchGetPostRequest),
+    fork(watchDeletePostRequest),
+    fork(watchAddPostRequest),
+  ]);
 }

@@ -46,6 +46,7 @@
     "function-paren-newline": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/self-closing-comp": "off",
-    "no-else-return": "off"
+    "no-else-return": "off",
+    "no-confusing-arrow":"off"
   }
 }
