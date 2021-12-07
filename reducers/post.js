@@ -4,6 +4,7 @@ const postReducer = createSlice({
   name: 'post',
   initialState: {
     mainPosts: [],
+    isZoomImagesShow: false,
     isGetPostLoading: false,
     isGetPostDone: false,
     isGetPostError: null,
@@ -16,8 +17,14 @@ const postReducer = createSlice({
     isPostGetLoading: false,
     isPostGetDone: false,
     isPostGetError: null,
+    isAddCommentLoading: false,
+    isAddCommentFail: null,
+    isAddCommentDone: false,
   },
   reducers: {
+    toggleZoomImages: (state) => {
+      state.isZoomImagesShow = !state.isZoomImagesShow;
+    },
     getPostRequest: (state) => {
       state.isPostAddLoading = true;
     },
@@ -55,6 +62,26 @@ const postReducer = createSlice({
     deletePostFail: (state, { payload }) => {
       state.isPostDeleteLoading = false;
       state.isPostDeleteError = payload.error;
+    },
+    addCommentRequest: (state) => {
+      state.isAddCommentLoading = true;
+    },
+    addCommentSuccess: (state, { payload }) => {
+      const post = state.mainPosts.find((item) => item.id === payload.postId);
+      post.comments.unshift(payload.comment);
+      state.isAddCommentLoading = false;
+      state.isAddCommentDone = true;
+    },
+    addCommentFail: (state, { payload }) => {
+      state.isAddCommentLoading = false;
+      state.isAddCommentFail = payload.error;
+    },
+    editNickNameToPost: (state, { payload }) => {
+      state.mainPosts.forEach((item) => {
+        if (item.use.me.id === payload.userId) {
+          console.log(1);
+        }
+      });
     },
   },
 });

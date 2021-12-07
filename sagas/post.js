@@ -16,18 +16,28 @@ export const dummyPost = (id, title = faker.lorem.paragraph()) => ({
     me: {
       id: shortid.generate(),
       avatar: faker.image.avatar(),
+      nickName: faker.name.title(),
     },
   },
   comments: [
     {
       id: shortid.generate(),
       content: faker.lorem.sentence(),
-      user: { avatar: faker.image.avatar(), id: shortid.generate() },
+      user: {
+        nickName: faker.name.title(),
+        avatar: faker.image.avatar(),
+        id: shortid.generate(),
+      },
     },
     {
       id: shortid.generate(),
+
       content: faker.lorem.sentence(),
-      user: { avatar: faker.image.avatar(), id: shortid.generate() },
+      user: {
+        nickName: faker.name.title(),
+        avatar: faker.image.avatar(),
+        id: shortid.generate(),
+      },
     },
   ],
 });
@@ -42,6 +52,31 @@ function deletePostRequest(id) {
 
 function addPosstRequest(title) {
   return dummyPost(shortid.generate(), title);
+}
+
+function addCommentRequest({ content, postId, me }) {
+  return {
+    id: shortid.generate(),
+    postId,
+    content,
+    user: {
+      me,
+    },
+  };
+}
+
+function* addComment({ payload }) {
+  try {
+    yield delay(1000);
+    const comment = yield call(addCommentRequest, payload);
+    yield put(
+      postReducer.actions.addCommentSuccess({ comment, postId: payload.postId })
+    );
+    yield put(userReducer.actions.addCommentToMe({ comment }));
+  } catch (error) {
+    console.log(error);
+    yield put(postReducer.actions.addCommentFail({ error }));
+  }
 }
 
 function* addPost({ payload }) {
@@ -92,10 +127,15 @@ function* watchDeletePostRequest() {
   yield takeLatest(postReducer.actions.deletePostRequest, deletePost);
 }
 
+function* watchAddCommentRequest() {
+  yield takeLatest(postReducer.actions.addCommentRequest, addComment);
+}
+
 export default function* post() {
   yield all([
     fork(watchGetPostRequest),
     fork(watchDeletePostRequest),
     fork(watchAddPostRequest),
+    fork(watchAddCommentRequest),
   ]);
 }

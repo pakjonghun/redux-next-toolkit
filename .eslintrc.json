@@ -47,6 +47,9 @@
     "react/jsx-no-useless-fragment": "off",
     "react/self-closing-comp": "off",
     "no-else-return": "off",
-    "no-confusing-arrow":"off"
+    "no-confusing-arrow": "off",
+    "arrow-body-style": "off",
+    "react/jsx-boolean-value": "off",
+    "import/no-relative-packages": "off"
   }
 }

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import shortid from 'shortid';
 import CoverImages from './CoverImages';
 import postReducer from '../reducers/post';
+import CommentForm from './CommentForm';
 
 const PostCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -64,19 +65,22 @@ const PostCard = ({ item }) => {
         />
       </Card>
       {isCommentOpened && (
-        <List
-          itemLayout="vertical"
-          dataSource={item.comments}
-          renderItem={(comment) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar src={comment.user.avatar} />}
-                title={comment.user.id}
-                description={comment.content}
-              />
-            </List.Item>
-          )}
-        />
+        <>
+          {me && me.id && <CommentForm postId={item.id} />}
+          <List
+            itemLayout="vertical"
+            dataSource={item.comments}
+            renderItem={(comment) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar src={comment.user.avatar} />}
+                  title={comment.user.id}
+                  description={comment.content}
+                />
+              </List.Item>
+            )}
+          />
+        </>
       )}
     </>
   );

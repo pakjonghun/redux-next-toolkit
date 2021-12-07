@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,13 +6,17 @@ import styled from 'styled-components';
 import userReducer from '../reducers/user';
 
 const Login = () => {
-  const { isLoginLoading } = useSelector((state) => state.userReducer);
-  const dispatch = useDispatch();
+  const { isLoginLoading, isSignupDone } = useSelector(
+    (state) => state.userReducer
+  );
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onChange' });
+
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     dispatch(userReducer.actions.loginRequest(data));
   };
@@ -24,7 +28,7 @@ const Login = () => {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <input
         placeholder="email"
-        {...register('email', {
+        {...register('id', {
           pattern: {
             value: /\S+@\S+\.\S+/g,
             message: '이메일 형식이 아닙니다.',
@@ -32,7 +36,7 @@ const Login = () => {
           ...validate,
         })}
       />
-      <p>{errors.email && errors.email.message}</p>
+      <p>{errors.email && errors.id.message}</p>
       <input
         placeholder="password"
         type="password"

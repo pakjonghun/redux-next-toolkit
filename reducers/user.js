@@ -7,6 +7,12 @@ const initialState = {
   isLoginError: null,
   isLogoutLoading: false,
   isLogoutError: null,
+  isSignupLoading: false,
+  isSignupDone: false,
+  isSignupError: null,
+  isNickNameEditLoading: false,
+  isNickNameEditDone: false,
+  isNickNameEditError: null,
 };
 
 const userReducer = createSlice({
@@ -42,6 +48,31 @@ const userReducer = createSlice({
     },
     addPostToMe: (state, { payload }) => {
       state.me.posts.unshift(payload.newPost);
+    },
+    signUpRequest: (state) => {
+      state.isSignupLoading = true;
+    },
+    signUpSuccess: (state) => {
+      state.isSignupLoading = false;
+      state.isSignupDone = true;
+    },
+    signUpFail: (state, { payload }) => {
+      state.isSignupLoading = false;
+      state.isSignupError = payload.error;
+    },
+    addCommentToMe: (state, { payload }) => {
+      state.me.comments.unshift(payload.comment);
+    },
+    editNicknameRequest: (state, { payload }) => {
+      state.isNickNameEditLoading = true;
+    },
+    editNicknameSuccess: (state, { payload }) => {
+      state.isNickNameEditLoading = false;
+      state.isNickNameEditDone = true;
+    },
+    editNicknameFail: (state, { payload }) => {
+      state.isNickNameEditLoading = false;
+      state.isNickNameEditError = payload.error;
     },
   },
 });

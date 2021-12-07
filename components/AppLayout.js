@@ -48,7 +48,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          {me && me.email ? <UserForm /> : <Login />}
+          {me && me.id ? <UserForm /> : <Login />}
         </Col>
         <Col xs={24} md={12}>
           {children}
