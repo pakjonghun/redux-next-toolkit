@@ -4,7 +4,15 @@ import faker from 'faker';
 import postReducer from '../reducers/post';
 import userReducer from '../reducers/user';
 
-export const dummyPost = (id, title = faker.lorem.paragraph()) => ({
+export const dummyPost = (
+  id,
+  me = {
+    id: shortid.generate(),
+    nickName: faker.name.findName(),
+    avatar: faker.image.image(),
+  },
+  title = faker.lorem.paragraph()
+) => ({
   id,
   title,
   images: [
@@ -13,31 +21,19 @@ export const dummyPost = (id, title = faker.lorem.paragraph()) => ({
     { id: shortid.generate(), src: faker.image.image() },
   ],
   user: {
-    me: {
-      id: shortid.generate(),
-      avatar: faker.image.avatar(),
-      nickName: faker.name.title(),
-    },
+    me,
   },
   comments: [
     {
       id: shortid.generate(),
       content: faker.lorem.sentence(),
-      user: {
-        nickName: faker.name.title(),
-        avatar: faker.image.avatar(),
-        id: shortid.generate(),
-      },
+      user: me,
     },
     {
       id: shortid.generate(),
 
       content: faker.lorem.sentence(),
-      user: {
-        nickName: faker.name.title(),
-        avatar: faker.image.avatar(),
-        id: shortid.generate(),
-      },
+      user: me,
     },
   ],
 });
@@ -50,8 +46,8 @@ function deletePostRequest(id) {
   console.log(id);
 }
 
-function addPosstRequest(title) {
-  return dummyPost(shortid.generate(), title);
+function addPosstRequest(title, userId) {
+  return dummyPost(shortid.generate(), userId, title);
 }
 
 function addCommentRequest({ content, postId, me }) {
@@ -81,7 +77,7 @@ function* addComment({ payload }) {
 
 function* addPost({ payload }) {
   try {
-    const newPost = yield call(addPosstRequest, payload.content);
+    const newPost = yield call(addPosstRequest, payload.content, payload.me);
     yield delay(1000);
     yield put(postReducer.actions.addPostSuccess({ newPost }));
     yield put(userReducer.actions.addPostToMe({ newPost }));

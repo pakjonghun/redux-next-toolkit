@@ -23,7 +23,7 @@ const userReducer = createSlice({
       state.isLoginLoading = true;
     },
     loginSuccess: (state, { payload }) => {
-      state.me = { ...payload };
+      state.me = payload;
       state.isLoginLoading = false;
       state.isLoginDone = true;
     },
@@ -63,14 +63,15 @@ const userReducer = createSlice({
     addCommentToMe: (state, { payload }) => {
       state.me.comments.unshift(payload.comment);
     },
-    editNicknameRequest: (state, { payload }) => {
+    editNickNameRequest: (state) => {
       state.isNickNameEditLoading = true;
     },
-    editNicknameSuccess: (state, { payload }) => {
+    editNickNameSuccess: (state, { payload }) => {
+      state.me.nickName = payload.nickName;
       state.isNickNameEditLoading = false;
       state.isNickNameEditDone = true;
     },
-    editNicknameFail: (state, { payload }) => {
+    editNickNameFail: (state, { payload }) => {
       state.isNickNameEditLoading = false;
       state.isNickNameEditError = payload.error;
     },

@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { put, fork, takeLatest, all, delay, call } from 'redux-saga/effects';
+import postReducer from '../reducers/post';
 import userReducer from '../reducers/user';
 import { dummyPost } from './post';
 
@@ -16,6 +17,8 @@ function loginRequest(payload) {
   payload.posts = [post1, post2];
   payload.comments = [];
   payload.nickName = faker.name.title();
+
+  return payload;
 }
 
 export function signUpRequest(payload) {
@@ -36,9 +39,9 @@ function* signUp({ payload }) {
 
 function* login({ payload }) {
   try {
-    yield call(loginRequest, payload);
+    const loginUser = yield call(loginRequest, payload);
     yield delay(1000);
-    yield put(userReducer.actions.loginSuccess(payload));
+    yield put(userReducer.actions.loginSuccess(loginUser));
   } catch (error) {
     console.log(error);
     yield put(userReducer.actions.loginFail({ error }));
@@ -58,10 +61,13 @@ function* logout() {
 function* editNickName({ payload }) {
   try {
     yield delay(1000);
-    yield call(editNickNameRequest, payload);
-    yield put(userReducer.actions.editNicknameSuccess(payload));
+    const result = yield call(editNickNameRequest, payload);
+    if (result) {
+      yield put(userReducer.actions.editNickNameSuccess(payload));
+    }
+    yield put(postReducer.actions.editNickNameToPost(payload));
   } catch (error) {
-    yield put(userReducer.actions.editNicknameFail({ error }));
+    yield put(userReducer.actions.editNickNameFail({ error }));
   }
 }
 
@@ -78,7 +84,7 @@ function* watchLogoutRequest() {
 }
 
 function* watchEditNickNameRequest() {
-  yield takeLatest(userReducer.actions.editNicknameRequest, editNickName);
+  yield takeLatest(userReducer.actions.editNickNameRequest, editNickName);
 }
 export default function* user() {
   yield all([

@@ -18,8 +18,16 @@ const UserForm = () => {
         <div key="follower">팔로워 {me.followers.length}</div>,
       ]}
     >
-      <Meta avatar={<Avatar src={me.avatar} />} title={me.email} />
-      <Button loading={isLogoutLoading} onClick={onClick}>
+      <Meta
+        avatar={<Avatar src={me.avatar} />}
+        title={me.email}
+        description={me.nickName}
+      />
+      <Button
+        style={{ marginTop: 10 }}
+        loading={isLogoutLoading}
+        onClick={onClick}
+      >
         로그아웃
       </Button>
     </Card>

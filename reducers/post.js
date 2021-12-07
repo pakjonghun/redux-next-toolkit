@@ -78,8 +78,8 @@ const postReducer = createSlice({
     },
     editNickNameToPost: (state, { payload }) => {
       state.mainPosts.forEach((item) => {
-        if (item.use.me.id === payload.userId) {
-          console.log(1);
+        if (item.user.me.id === payload.userId) {
+          item.user.me.nickName = payload.nickName;
         }
       });
     },

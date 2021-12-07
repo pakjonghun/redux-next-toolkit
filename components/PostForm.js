@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import postReducer from '../reducers/post';
 
 const PostForm = () => {
@@ -13,8 +13,10 @@ const PostForm = () => {
     formState: { errors },
   } = useForm();
 
+  const { me } = useSelector((state) => state.userReducer);
+
   const onSubmit = useCallback((data) => {
-    dispatch(postReducer.actions.addPostRequest(data));
+    dispatch(postReducer.actions.addPostRequest({ ...data, me }));
   }, []);
 
   return (
