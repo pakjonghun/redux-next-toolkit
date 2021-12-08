@@ -1,12 +1,9 @@
 import React, { useEffect, useLayoutEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FixedSizeList as List } from 'react-window';
-import AutoSize from 'react-virtualized-auto-sizer';
 import postReducer from '../reducers/post';
 
 import PostCard from './PostCard';
 import PostForm from './PostForm';
-import '../styles/style.css';
 
 const PostCards = () => {
   const { postReducer: post, userReducer: user } = useSelector(
@@ -58,19 +55,7 @@ const PostCards = () => {
     }
   };
 
-  return (
-    <AutoSize>
-      {({ width, height }) => {
-        <List
-          itemCount={50}
-          className="List"
-          itemSize={35}
-          height={height}
-          width={width}
-        />;
-      }}
-    </AutoSize>
-  );
+  return <>{mainPosts.map(items)}</>;
 };
 
-export default memo(PostCards);
+export default PostCards;

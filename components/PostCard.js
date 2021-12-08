@@ -12,6 +12,7 @@ import shortid from 'shortid';
 import CoverImages from './CoverImages';
 import postReducer from '../reducers/post';
 import CommentForm from './CommentForm';
+import FollowBtn from './FollowBtn';
 
 const PostCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const PostCard = ({ item }) => {
     <>
       <Card
         style={{ marginBottom: 15 }}
+        extra={[<FollowBtn postId={item.id}>Follow</FollowBtn>]}
         actions={[
           <RetweetOutlined key="reload" />,
           <CommentOutlined onClick={onCommentClick} key="comment" />,

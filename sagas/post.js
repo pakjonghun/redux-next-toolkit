@@ -65,6 +65,16 @@ function addCommentRequest({ content, postId, me }) {
   };
 }
 
+function followRequest({ me, postId }) {
+  const result = {
+    id: shortid.generate(),
+    me,
+    postId,
+  };
+
+  return result;
+}
+
 function* addComment({ payload }) {
   try {
     yield delay(1000);
@@ -115,6 +125,17 @@ function* deletePost({ payload }) {
   }
 }
 
+function* follow({ payload }) {
+  try {
+    yield delay(1000);
+    const result = yield call(followRequest, payload);
+    yield put(postReducer.actions.followSuccess({ follow: result }));
+    yield put(userReducer.actions.followToMe({ follow: result }));
+  } catch (error) {
+    yield put(postReducer.actions.followFail({ error }));
+  }
+}
+
 function* watchAddPostRequest() {
   yield takeLatest(postReducer.actions.addPostRequest, addPost);
 }
@@ -131,8 +152,13 @@ function* watchAddCommentRequest() {
   yield takeLatest(postReducer.actions.addCommentRequest, addComment);
 }
 
+function* watchFollowRequest() {
+  yield takeLatest(postReducer.actions.followRequest, follow);
+}
+
 export default function* post() {
   yield all([
+    fork(watchFollowRequest),
     fork(watchGetPostRequest),
     fork(watchDeletePostRequest),
     fork(watchAddPostRequest),

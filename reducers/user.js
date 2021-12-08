@@ -75,6 +75,9 @@ const userReducer = createSlice({
       state.isNickNameEditLoading = false;
       state.isNickNameEditError = payload.error;
     },
+    followToMe: (state, { payload }) => {
+      state.me.follows.push(payload.follow);
+    },
   },
 });
 

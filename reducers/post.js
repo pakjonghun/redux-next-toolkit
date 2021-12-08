@@ -20,8 +20,22 @@ const postReducer = createSlice({
     isAddCommentLoading: false,
     isAddCommentFail: null,
     isAddCommentDone: false,
+    isFollowLoading: false,
+    isFollowFail: null,
+    isFollowDone: false,
   },
   reducers: {
+    followRequest: (state) => {
+      state.isFollowLoading = true;
+    },
+    followSuccess: (state, { payload }) => {
+      state.isFollowLoading = false;
+      state.isFollowDone = true;
+    },
+    followFail: (state, { payload }) => {
+      state.isFollowLoading = false;
+      state.isFollowFail = payload.error;
+    },
     toggleZoomImages: (state) => {
       state.isZoomImagesShow = !state.isZoomImagesShow;
     },
