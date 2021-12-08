@@ -50,6 +50,11 @@
     "no-confusing-arrow": "off",
     "arrow-body-style": "off",
     "react/jsx-boolean-value": "off",
-    "import/no-relative-packages": "off"
+    "import/no-relative-packages": "off",
+    "no-plusplus": "off",
+    "react/no-unstable-nested-components": "off",
+    "no-unused-expressions": "off",
+    "no-lone-blocks": "off",
+    "import/no-unresolved": "off"
   }
 }

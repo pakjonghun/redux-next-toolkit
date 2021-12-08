@@ -39,7 +39,11 @@ export const dummyPost = (
 });
 
 export function getPostRequest() {
-  return [dummyPost(1), dummyPost(2)];
+  const result = [];
+  for (let i = 0; i < 10; i++) {
+    result.push(dummyPost(shortid.generate()));
+  }
+  return result;
 }
 
 function deletePostRequest(id) {
@@ -90,7 +94,7 @@ function* getPost({ payload }) {
   try {
     const result = yield call(getPostRequest, payload);
 
-    yield delay(1000);
+    yield delay(500);
     yield put(postReducer.actions.getPostSuccess(result));
   } catch (error) {
     console.log(error);

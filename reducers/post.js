@@ -29,7 +29,7 @@ const postReducer = createSlice({
       state.isPostAddLoading = true;
     },
     getPostSuccess: (state, { payload }) => {
-      state.mainPosts = payload;
+      state.mainPosts = [...state.mainPosts, ...payload];
       state.isPostAddLoading = false;
       state.isPostAddDone = true;
     },

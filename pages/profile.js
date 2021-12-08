@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import Router from 'next/router';
 import AppLayout from '../components/AppLayout';
 import UserInputForm from '../components/UserInputForm';
+import Follow from '../components/Follow';
+import Follower from '../components/Follower';
 
 const Profile = () => {
   const { me } = useSelector((state) => state.userReducer);
@@ -18,6 +20,8 @@ const Profile = () => {
         <title>Profile | NodeBird2</title>
       </Head>
       <UserInputForm />
+      <Follow />
+      <Follower />
     </AppLayout>
   );
 };

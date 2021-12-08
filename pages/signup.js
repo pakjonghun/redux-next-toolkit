@@ -74,6 +74,20 @@ const Signup = () => {
             <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
           )}
           <br />
+          <label htmlFor="nickName">Nickname</label>
+          <br />
+          <Input
+            id="nickName"
+            placeholder="nickName"
+            {...register('nickName', { required: true })}
+          />
+          {errors.nickName && (
+            <ErrorMessage>{errors.nickName.message}</ErrorMessage>
+          )}
+          {getValues().password !== getValues().passwordConfirm && (
+            <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          )}
+          <br />
           <Button htmlType="submit" loading={isSignupLoading}>
             회원가입
           </Button>
